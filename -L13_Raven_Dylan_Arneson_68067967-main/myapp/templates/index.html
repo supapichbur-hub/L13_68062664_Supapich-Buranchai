@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200') center/cover; padding: 40px; border-radius: 8px; margin-bottom: 20px;">
+    <h2 class="text-white text-center fw-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">ยินดีต้อนรับสู่เว็บไซต์ของรายวิชา ICT12367</h2>
+</div>
+
+<h2 style="color: blueviolet;" class="text-center">ยินดีต้อนรับเข้าสู่ประชากร</h2>
+
+<!-- ส่วนค้นหาข้อมูล -->
+<form method="get" action="/">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="search" placeholder="ค้นหาชื่อประชากร" value="{{search}}">
+        <button type="submit" class="btn btn-primary">ค้นหา</button>
+        {% if search %}
+        <a href="/" class="btn btn-secondary">แสดงทั้งหมด</a>
+        {% endif %}
+    </div>
+</form>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">รหัสประชากร</th>
+            <th scope="col">ชื่อประชากร</th>
+            <th scope="col">อายุ</th>
+            <th scope="col">วันที่เพิ่มข้อมูล</th>
+            <th scope="col">แก้ไข</th>
+            <th scope="col">ลบ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for person in all_person %}
+        <tr>
+            <th scope="row">{{person.id}}</th>
+            <td>{{person.name}}</td>
+            <td>{{person.age}}</td>
+            <td>{{person.created_date|date:"F d, Y"}}</td>
+            <td><a href="/edit/{{person.id}}/" class="btn btn-warning btn-sm">แก้ไข</a></td>
+            <td><a href="/delete/{{person.id}}/" class="btn btn-danger btn-sm" onclick="return confirm('ยืนยันการลบข้อมูล?')">ลบ</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
