@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card p-5 mb-5 text-center">
+    <h1 class="display-4 fw-bold hero-title mb-3">ระบบจัดการข้อมูลประชากร</h1>
+    <p class="text-muted lead">รายวิชา ICT12367 | ข้อมูลประชากรทั้งหมดที่ได้รับการลงทะเบียน</p>
+</div>
+
+<div class="glass-card p-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+        <h3 class="m-0 fw-bold"><i class="bi bi-people-fill me-2 text-info"></i> รายชื่อประชากร</h3>
+        
+        <form method="get" action="/" class="d-flex gap-2">
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-secondary text-muted">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control bg-transparent border-secondary text-white" 
+                       name="search" placeholder="ค้นหาชื่อ..." value="{{search}}" style="width: 250px;">
+                <button type="submit" class="btn btn-premium">ค้นหา</button>
+            </div>
+            {% if search %}
+            <a href="/" class="btn btn-outline-premium"><i class="bi bi-x-lg"></i></a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="table-container">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">ชื่อประชากร</th>
+                        <th scope="col">อายุ (ปี)</th>
+                        <th scope="col">วันที่บันทึก</th>
+                        <th scope="col" class="text-center">การจัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in all_person %}
+                    <tr>
+                        <td class="fw-bold text-muted">#{{person.id}}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-person-circle fs-4 me-2 text-primary opacity-75"></i>
+                                <span>{{person.name}}</span>
+                            </div>
+                        </td>
+                        <td><span class="badge-age">{{person.age}}</span></td>
+                        <td><span class="text-muted small">{{person.created_date|date:"d M Y"}}</span></td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="/edit/{{person.id}}/" class="btn btn-sm btn-outline-premium" title="แก้ไข">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="/delete/{{person.id}}/" class="btn btn-sm btn-outline-danger" 
+                                   style="border-radius: 8px;"
+                                   onclick="return confirm('ยืนยันการลบข้อมูลของ {{person.name}}?')" title="ลบ">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="bi bi-inbox display-4 d-block mb-3 opacity-25"></i>
+                            <span class="text-muted">ไม่พบข้อมูลประชากร</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
